@@ -1,0 +1,9 @@
+{% extends "journal/base.html" %}
+{% block content %}
+{% for plant in plants %}
+    <h1>{{ plant.name }}</h1>
+    <p>Location: {{ plant.location }}</p>
+    <p>Last watered: {{ plant.last_watered }}</p>
+    <p>Notes: {{ plant.notes }}</p>
+{% endfor %}
+{% endblock content %}
