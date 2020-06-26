@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- End Bootstrap CSS -->
 
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'journal/main.css' %}">
+    <!-- End My CSS -->
+
     {% if title %}
     <title>Plantly - {{ title }}</title>
     {% else %}
@@ -16,7 +21,64 @@
     {% endif %}
 </head>
 <body>
-    <div class="container">{% block content %} {% endblock %}</div>
+    <main>
+        <div class="jumbotron text-center text-black" style="background-color:#87d13f !important;">
+          <h1 class="display-3">&#127793;Plantly</h1>
+          <p>A personal plant journal</p>
+          <p>
+            <a class="btn btn-dark btn-md" href="#" role="button" data-toggle="modal" data-target="#addPlantModal">Add a Plant</a>
+          </p>
+        </div>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <!-- Modal for Add Plant button-->
+        <div class="modal fade" id="addPlantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add a Plant</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="inputPlantName">Name of Plant</label>
+                    <input type="text" class="form-control" id="inputPlantName" aria-describedby="nameHelp" >
+                    <small id="nameHelp" class="form-text text-muted">Ex. Philodendron Brasil</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputLocation">Location</label>
+                    <input type="text" class="form-control" id="inputLocation" aria-describedby="locationHelp" >
+                    <small id="locationHelp" class="form-text text-muted">Ex. Living Room</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputDateBought">Date Acquired</label>
+                    <input type="text" class="form-control" id="inputDateBought" placeholder="XX/XX/XX">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPlantNotes">Notes</label>
+                    <textarea class="form-control" id="inputPlantNotes" rows="3"></textarea>
+                    <small id="notesHelp" class="form-text text-muted">Ex. Likes bright indirect light, Repotted 2/13/19</small>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-success" data-dismiss="modal">Add Plant</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- End Modal for Add Plant button-->
+    </main>
+
+    <footer class="container">
+        <hr>
+        <p>© 2020 Dana Brannon</p>
+    </footer>
 
     <!-- Optional Bootstrap JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

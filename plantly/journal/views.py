@@ -8,7 +8,8 @@ plants = [
         'last_watered':'11/01/2020',
         'last_fertilized':'11/3/2020',
         'bought':'10/31/2020',
-        'notes':'Leaf yellowed'
+        'notes':'Leaf yellowed',
+        'id':'01'
     },
     {
         'name':'Snake Plant',
@@ -16,7 +17,8 @@ plants = [
         'last_watered':'12/01/2020',
         'last_fertilized':'12/3/2020',
         'bought':'11/29/2020',
-        'notes':'Repotted'
+        'notes':'Repotted',
+        'id':'02'
     },
 ]
 
