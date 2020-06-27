@@ -4,11 +4,11 @@
     {% for plant in plants %}
     <div class="col-md-3">
         <div class="card mb-5">
-          <img class="card-img-top" src="phil_brasil_square.jpg" alt="{{ plant.name }}">
+          <img class="card-img-top" src="{{ plant.image.url }}" alt="{{ plant.name }}">
           <div class="card-body">
             <h5 class="card-title text-center mb-0">{{ plant.name }}</h5>
             <button type="button" class="btn btn-link" data-toggle="modal" data-target="#Modal{{ plant.id }}" style="width:100%">Details</button>
-            <p class="card-text">Location: {{ plant.location }}<br>Last Watered: {{ plant.last_watered }}<br>Bought: {{ plant.bought }}</p>
+            <p class="card-text">Location: {{ plant.location }}<br>Last Watered: TBD <!--{{ plant.last_watered }}--><br>Bought: {{ plant.bought|date:"F d, Y" }}</p>
             <a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
           </div>
         </div>
@@ -24,7 +24,7 @@
               </button>
             </div>
             <div class="modal-body">
-              {{ plant.notes }}
+              <!-- {{ plant.notes }} --> FILLER
               <hr>
               <div class="form-group">
                 <label for="addANote">Add a Note</label>

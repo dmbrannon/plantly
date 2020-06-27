@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Plant, Entry
 # from django.http import HttpResponse
 
 plants = [
@@ -24,7 +25,7 @@ plants = [
 
 def home(request):
     context = {
-        'plants': plants
+        'plants': Plant.objects.all()
     }
     return render(request, 'journal/home.html', context)
 
