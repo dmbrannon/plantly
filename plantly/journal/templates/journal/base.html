@@ -30,8 +30,15 @@
           </p>
         </div>
         <div class="container">
-            {% block content %}
-            {% endblock %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}
+          {% endblock %}
         </div>
 
         <!-- Modal for Add Plant button-->
