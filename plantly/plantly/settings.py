@@ -126,3 +126,6 @@ CRISPY_TEMPLATE_PACK ='bootstrap4'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #files NOT stored in database for performance reasons
 MEDIA_URL =  '/media/' #how to access media through browser
+
+LOGIN_REDIRECT_URL = 'journal-home'
+LOGIN_URL = 'login'
