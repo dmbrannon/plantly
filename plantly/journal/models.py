@@ -37,4 +37,4 @@ class Entry(models.Model):
     treated = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='N')
     
     def __str__(self):
-        return f"Entry: {self.note}"
+        return f"{self.note}"

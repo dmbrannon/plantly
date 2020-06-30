@@ -1,20 +1,29 @@
 {% extends "journal/base.html" %}
 {% block content %}
-<div class="row">
-    {% for plant in plants %}
-    <div class="col-md-3">
-        <div class="card mb-5">
-          <img class="card-img-top" src="{{ plant.image.url }}" alt="{{ plant.name }}">
-          <div class="card-body">
-            <h5 class="card-title text-center mb-0">{{ plant.name }}</h5>
-            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#Modal{{ plant.id }}" style="width:100%">Details</button>
-            <p class="card-text">Location: {{ plant.location }}<br>Last Watered: TBD <!--{{ plant.last_watered }}--><br>Bought: {{ plant.bought|date:"F d, Y" }}</p>
-            <a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
-          </div>
-        </div>
+  {% if user.is_authenticated %}
+  {% else %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+      <strong>Welcome!</strong> You can <a href="{% url 'login' %}" class="alert-link">login</a> or <a href="{% url 'register' %}" class="alert-link">register</a> to view your own plants -- or just view Dana's below!
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+  {% endif %}
+  <div class="row">
+    {% for plant in plants %}
+      <div class="col-md-3">
+          <div class="card mb-5">
+            <img class="card-img-top" src="{{ plant.image.url }}" alt="{{ plant.name }}">
+            <div class="card-body">
+              <h5 class="card-title text-center mb-0">{{ plant.name }}</h5>
+              <button type="button" class="btn btn-link" data-toggle="modal" data-target="#Modal{{ plant.id }}" style="width:100%">Details</button>
+              <p class="card-text">Location: {{ plant.location }}<br>Last Watered: TBD <!--{{ plant.last_watered }}--><br>Bought: {{ plant.bought|date:"F d, Y" }}</p>
+              <a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
+            </div>
+          </div>
+      </div>
 
-    <div class="modal fade" id="Modal{{ plant.id }}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel{{ plant.id }}" aria-hidden="true">
+      <div class="modal fade" id="Modal{{ plant.id }}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel{{ plant.id }}" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -24,7 +33,9 @@
               </button>
             </div>
             <div class="modal-body">
-              <!-- {{ plant.notes }} --> FILLER
+              {% for note in plant.entry_set.all %}
+                <p>{{ note.date_created|date:"n/j"}}: {{ note }}</p>
+              {% endfor %}
               <hr>
               <div class="form-group">
                 <label for="addANote">Add a Note</label>
@@ -38,5 +49,6 @@
           </div>
         </div>
       </div>
-{% endfor %}
+    {% endfor %}
+  </div>
 {% endblock content %}
