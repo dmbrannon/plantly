@@ -51,7 +51,11 @@
           <h1 class="display-3"><a href="/" style="color:inherit">&#127793;Plantly</a></h1>
           <p>A personal plant journal</p>
           <p>
+            {% if user.is_authenticated %}
+            <a class="btn btn-dark btn-md" href="{% url 'plant-create' %}">Add a Plant</a>
+            {% else %}
             <a class="btn btn-dark btn-md" href="#" role="button" data-toggle="modal" data-target="#addPlantModal">Add a Plant</a>
+            {% endif %}
           </p>
         </div>
         <div class="container">
@@ -66,44 +70,22 @@
           {% endblock %}
         </div>
 
-        <!-- Modal for Add Plant button-->
-        <div class="modal fade" id="addPlantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add a Plant</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="form-group">
-                    <label for="inputPlantName">Name of Plant</label>
-                    <input type="text" class="form-control" id="inputPlantName" aria-describedby="nameHelp" >
-                    <small id="nameHelp" class="form-text text-muted">Ex. Philodendron Brasil</small>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputLocation">Location</label>
-                    <input type="text" class="form-control" id="inputLocation" aria-describedby="locationHelp" >
-                    <small id="locationHelp" class="form-text text-muted">Ex. Living Room</small>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputDateBought">Date Acquired</label>
-                    <input type="text" class="form-control" id="inputDateBought" placeholder="XX/XX/XX">
-                  </div>
-                  <div class="form-group">
-                    <label for="inputPlantNotes">Notes</label>
-                    <textarea class="form-control" id="inputPlantNotes" rows="3"></textarea>
-                    <small id="notesHelp" class="form-text text-muted">Ex. Likes bright indirect light, Repotted 2/13/19</small>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-success" data-dismiss="modal">Add Plant</button>
-                </div>
+        <!-- Modal Warning for Add Plant button-->
+        <div class="modal fade bd-example-modal-sm" id="addPlantModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger" id="exampleModalLabel">Add a Plant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
+              <div class="modal-body">
+                You must create an account or login to create a plant.
             </div>
+          </div>
         </div>
+
         <!-- End Modal for Add Plant button-->
     </main>
 

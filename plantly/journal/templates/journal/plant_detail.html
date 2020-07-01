@@ -1,0 +1,18 @@
+{% extends "journal/base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-4">
+        <img class="rounded" src="{{ object.image.url }}" style="max-width: 100%; height:auto;">
+        <a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
+        <h2>{{ object.name }}</h2>
+        <p class="card-text">Location: {{ object.location }}
+            <br>Last Watered: TBD <!--{{ plant.last_watered }}-->
+            <br>Bought: {{ object.bought|date:"F d, Y" }}
+        </p>
+        {% if object.owner == user %}
+            <a class="btn btn-outline-secondary" href="{% url 'plant-update' object.id %}">Update</a>
+            <a class="btn btn-outline-danger" href="{% url 'plant-delete' object.id %}">Delete</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

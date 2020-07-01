@@ -13,3 +13,11 @@ height: 15vw;
 .custom-circle-image img {
 object-fit: cover;
 }
+
+.no-style {
+    text-decoration: none !important;
+    color: inherit;
+}
+.no-style:hover {
+    color: inherit;
+}

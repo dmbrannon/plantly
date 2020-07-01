@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -21,6 +22,9 @@ class Plant(models.Model):
     
     def __str__(self):
         return f"{self.name} {self.id}"
+
+    def get_absolute_url(self):
+        return reverse('plant-detail', kwargs={'pk': self.pk})
 
 class Entry(models.Model):
     YES_NO_CHOICES = [
