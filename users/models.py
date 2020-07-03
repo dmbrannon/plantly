@@ -11,8 +11,8 @@ class Profile(models.Model):
         return f'{self.user.username}\'s Profile'
 
 
-    def save(self):
-        super().save() # call parent class to save image first
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs) # call parent class to save image first
         img = Image.open(self.image.path) # open this Profile instance's image
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
