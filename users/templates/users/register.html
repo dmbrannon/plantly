@@ -1,21 +1,27 @@
 {% extends "journal/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div>
-        <form method="POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Create an Account</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Create an Account</legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Sign Up</button>
+                    </div>
+                </form>
+                <div class="border-top pt-3">
+                    <small class="text-muted">
+                        Already have an account? Click <a href="{% url 'login' %}">here</a> to sign in.
+                    </small>
+                </div>
             </div>
-        </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Already have an account? Click <a href="{% url 'login' %}">here</a> to sign in.
-            </small>
+            <div class="col-md-3"></div>
         </div>
     </div>
 {% endblock content %}

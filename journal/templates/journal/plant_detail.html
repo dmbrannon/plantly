@@ -1,5 +1,6 @@
 {% extends "journal/base.html" %}
 {% block content %}
+<div class="container">
 <div class="row">
     <div class="col-sm-4">
         <img class="rounded" src="{{ object.image.url }}" style="max-width: 100%; height:auto;">
@@ -14,5 +15,6 @@
             <a class="btn btn-outline-danger" href="{% url 'plant-delete' object.id %}">Delete</a>
         {% endif %}
     </div>
+</div>
 </div>
 {% endblock content %}

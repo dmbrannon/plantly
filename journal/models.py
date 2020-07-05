@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from datetime import datetime
+
 # Create your models here.
 
 def user_directory_path(instance, filename): 
@@ -19,7 +21,16 @@ class Plant(models.Model):
     schedule = models.PositiveIntegerField()
     date_created = models.DateTimeField(auto_now_add=True) #date only when created, cant update this
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    last_watered = models.DateTimeField(default=timezone.now)
     
+    @property
+    def is_due(self):
+        return (timezone.now() - self.last_watered).days == self.schedule
+
+    @property
+    def is_past_due(self):
+        return (timezone.now() - self.last_watered).days > self.schedule
+
     def __str__(self):
         return f"{self.name} {self.id}"
 
@@ -39,6 +50,6 @@ class Entry(models.Model):
     fertilized = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='N')
     repotted = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='N')
     treated = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='N')
-    
+
     def __str__(self):
         return f"{self.note}"

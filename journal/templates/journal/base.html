@@ -46,52 +46,53 @@
         </span>
       {% endif %}
   </nav>
-    <main>
-        <div class="jumbotron text-center text-black" style="background-color:#87d13f !important;">
-          <h1 class="display-3"><a href="/" style="color:inherit">&#127793;Plantly</a></h1>
-          <p>A personal plant journal</p>
-          <p>
-            {% if user.is_authenticated %}
-            <a class="btn btn-dark btn-md" href="{% url 'plant-create' %}">Add a Plant</a>
-            {% else %}
-            <a class="btn btn-dark btn-md" href="#" role="button" data-toggle="modal" data-target="#addPlantModal">Add a Plant</a>
-            {% endif %}
-          </p>
-        </div>
-        <div class="container">
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-              </div>
-            {% endfor %}
+  <main>
+      <div class="jumbotron text-center text-black myjumbotron" style="background-color:#87d13f !important;">
+        <h1 class="display-3"><a href="/" style="color:inherit">&#127793;Plantly</a></h1>
+        <p>A personal plant journal</p>
+        <p>
+          {% if user.is_authenticated %}
+          <a class="btn btn-dark btn-md" href="{% url 'plant-create' %}">Add a Plant</a>
+          {% else %}
+          <a class="btn btn-dark btn-md" href="#" role="button" data-toggle="modal" data-target="#addPlantModal">Add a Plant</a>
           {% endif %}
-          {% block content %}
-          {% endblock %}
-        </div>
-
-        <!-- Modal Warning for Add Plant button-->
-        <div class="modal fade bd-example-modal-sm" id="addPlantModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title text-danger" id="exampleModalLabel">Add a Plant</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                You must create an account or login to create a plant.
+        </p>
+      </div>
+      <div class="container">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              {{ message }}
             </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      {% block content %}
+      {% endblock %}
+
+      <!-- Modal Warning for Add Plant button-->
+      <div class="modal fade bd-example-modal-sm" id="addPlantModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-danger" id="exampleModalLabel">Add a Plant</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              You must create an account or login to create a plant.
           </div>
         </div>
-
-        <!-- End Modal for Add Plant button-->
-    </main>
+      </div>
+      <!-- End Modal for Add Plant button-->
+  </main>
 
     <footer class="container">
+
         <hr>
-        <p>© 2020 Dana Brannon</p>
+        <p class="text-muted">© Dana Brannon</p>
+
     </footer>
 
     <!-- Optional Bootstrap JavaScript -->
