@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Plant, Entry
+from django.contrib import messages
 # from django.http import HttpResponse
 
 def home(request):
@@ -48,7 +49,13 @@ class PlantDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
     
-    success_url = '/'
+    success_url = '/' # bring us back to the home page
+    success_message = 'Your plant was successfully deleted.'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(PlantDeleteView, self).delete(request, *args, **kwargs)
+    
 
 def about(request):
     return render(request, 'journal/about.html', {'title':'About'})

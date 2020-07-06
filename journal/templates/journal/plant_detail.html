@@ -47,15 +47,13 @@
         <div class="col-md-2"></div>
     </div>
 
-    
-
     <div class="row mb-2">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div class="btn-group" role="group" style="width:100%" aria-label="Basic example">
                 {% if object.owner == user %}
-                <a href="#" role="button" class="btn btn-outline-secondary btn-sm">Update</a>
-                <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                    <a href="{% url 'plant-update' object.id %}" role="button" class="btn btn-outline-secondary btn-sm">Update</a>
+                    <a href="{% url 'plant-delete' object.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
                 {% endif %}
             </div>
         </div>
