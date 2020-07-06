@@ -55,20 +55,19 @@
           </thead>
           <tbody>
             {% for plant in plants %}
-              <tr>
+              <tr class="clickable" onclick="window.location='{% url 'plant-detail' plant.id %}'">
                 <td class="w-25">
-                  <a href="{% url 'plant-detail' plant.id %}"><img src="{{ plant.image.url }}" class="img-fluid rounded" alt="{{ plant.name }}">
-                  </a>
+                  <img src="{{ plant.image.url }}" class="img-fluid rounded" alt="{{ plant.name }}">
                 </td>
-                <td><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.name }}</a></td>
+                <td>{{ plant.name }}</td>
                 {% if plant.is_past_due %}
-                  <td class="text-danger"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince|upto:',' }} ago</a></td>
+                  <td class="text-danger">{{ plant.last_watered|timesince|upto:',' }} ago</td>
                 {% elif plant.is_due %}
-                  <td class="text-warning"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince|upto:',' }} ago</a></td>
+                  <td class="text-warning">{{ plant.last_watered|timesince|upto:',' }} ago</td>
                 {% elif plant.watered_today %}
-                  <td class="text-success"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">Today</a></td>
+                  <td class="text-success">Today</td>
                 {% else %}
-                  <td class="text"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince|upto:',' }} ago</a></td>
+                  <td class="text">{{ plant.last_watered|timesince|upto:',' }} ago</td>
                 {% endif %}
                 <td>{{ plant.location }}</td>
               
