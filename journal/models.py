@@ -31,6 +31,10 @@ class Plant(models.Model):
     def is_past_due(self):
         return (timezone.now() - self.last_watered).days > self.schedule
 
+    @property
+    def watered_today(self):
+        return (timezone.now() - self.last_watered).days == 0
+
     def __str__(self):
         return f"{self.name} {self.id}"
 

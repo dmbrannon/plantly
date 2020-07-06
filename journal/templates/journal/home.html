@@ -1,4 +1,5 @@
 {% extends "journal/base.html" %}
+{% load my_tags %}
 {% block content %}
   {% if user.is_authenticated %}
   {% else %}
@@ -19,8 +20,19 @@
             <div class="card mb-5">
               <img class="card-img-top" src="{{ plant.image.url }}" alt="{{ plant.name }}">
               <div class="card-body">
-                <h5 class="card-title text-center mb-0">{{ plant.name }}</h5>
-                <p class="card-text">Location: {{ plant.location }}<br>Last Watered: TBD <!--{{ plant.last_watered }}--><br>Bought: {{ plant.bought|date:"F d, Y" }}</p>
+                <h5 class="card-title text-center">{{ plant.name }}</h5>
+                <p class="card-text">Location: {{ plant.location }}
+                  {% if plant.is_past_due %}
+                    <br>Last Watered: <span class="text-danger">{{ plant.last_watered|timesince|upto:',' }} ago</span>
+                  {% elif plant.is_due %}
+                    <br>Last Watered: <span class="text-warning">{{ plant.last_watered|timesince|upto:',' }} ago</span>
+                  {% elif plant.watered_today %}
+                    <br>Last Watered: <span class="text-success">Today</span>
+                  {% else %}
+                    <br>Last Watered: {{ plant.last_watered|timesince|upto:',' }} ago
+                  {% endif %}
+                  <br>Bought: {{ plant.bought|date:"F j, Y" }}
+                </p>
               </div>
             </div>
           </a>
@@ -50,11 +62,13 @@
                 </td>
                 <td><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.name }}</a></td>
                 {% if plant.is_past_due %}
-                  <td class="text-danger"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince }} ago</a></td>
+                  <td class="text-danger"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince|upto:',' }} ago</a></td>
                 {% elif plant.is_due %}
-                  <td class="text-warning"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince }} ago</a></td>
+                  <td class="text-warning"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince|upto:',' }} ago</a></td>
+                {% elif plant.watered_today %}
+                  <td class="text-success"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">Today</a></td>
                 {% else %}
-                  <td class="text"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince }} ago</a></td>
+                  <td class="text"><a class="no-style no-hover" href="{% url 'plant-detail' plant.id %}">{{ plant.last_watered|timesince|upto:',' }} ago</a></td>
                 {% endif %}
                 <td>{{ plant.location }}</td>
               

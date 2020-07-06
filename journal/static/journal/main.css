@@ -24,6 +24,7 @@ object-fit: cover;
 
 .myjumbotron {
     padding: 2rem 2rem;
+    border-radius: 0 !important;
 }
 
 #content-desktop {display: block;}
@@ -32,4 +33,8 @@ object-fit: cover;
 @media screen and (max-width: 768px) {
 #content-desktop {display: none;}
 #content-mobile {display: block;}
+}
+
+.asteriskField {
+    display: none;
 }

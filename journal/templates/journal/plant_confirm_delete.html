@@ -1,11 +1,11 @@
 {% extends "journal/base.html" %}
 {% block content %}
-    <div>
+    <div class="container">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Delete a Plant</legend>
-                <h2>Are you sure you want to delete your {{ object.name }}?</h2>
+                Are you sure you want to delete your {{ object.name }}?
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-danger" type="submit">Delete</button>

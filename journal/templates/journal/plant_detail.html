@@ -1,20 +1,35 @@
 {% extends "journal/base.html" %}
+{% load my_tags %}
 {% block content %}
 <div class="container">
-<div class="row">
-    <div class="col-sm-4">
-        <img class="rounded" src="{{ object.image.url }}" style="max-width: 100%; height:auto;">
-        <a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
-        <h2>{{ object.name }}</h2>
-        <p class="card-text">Location: {{ object.location }}
-            <br>Last Watered: TBD <!--{{ plant.last_watered }}-->
-            <br>Bought: {{ object.bought|date:"F d, Y" }}
-        </p>
-        {% if object.owner == user %}
-            <a class="btn btn-outline-secondary" href="{% url 'plant-update' object.id %}">Update</a>
-            <a class="btn btn-outline-danger" href="{% url 'plant-delete' object.id %}">Delete</a>
-        {% endif %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8"><a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
+        </div>
+        <div class="col-md-2"></div>
     </div>
-</div>
+    
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="media mt-2">
+                <img class="rounded mr-3" src="{{ object.image.url }}" alt="{{ object.name }}" style="width:30%">
+                <div class="media-body">
+                    <h2 class="mt-0">{{ object.name }}</h2>
+                    
+                    <p class="card-text">Location: {{ object.location }}
+                        <br>Last Watered: {{ plant.last_watered|timesince|upto:',' }} ago
+                        <br>Bought: {{ object.bought|date:"F d, Y" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    {% if object.owner == user %}
+        <a class="btn btn-outline-secondary" href="{% url 'plant-update' object.id %}">Update</a>
+        <a class="btn btn-outline-danger" href="{% url 'plant-delete' object.id %}">Delete</a>
+    {% endif %}
 </div>
 {% endblock content %}

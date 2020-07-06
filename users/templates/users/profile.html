@@ -1,20 +1,26 @@
 {% extends "journal/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1>{{ user.username }}</h1>
     <div class="container">
-        <p>{{ user.email }}</p>
-        <img class="rounded-circle" src="{{ user.profile.image.url }}">
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Profile Info</legend>
-                {{ u_form|crispy }}
-                {{ p_form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Update</button>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <img class="rounded-circle mr-3 mb-3" src="{{ user.profile.image.url }}" style="width:30%; float:left">
+                <h1>{{ user.username }}</h1>
+                <p>{{ user.email }}</p>
+                <form method="POST" enctype="multipart/form-data" style="clear:both">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Update Profile Info</legend>
+                        {{ u_form|crispy }}
+                        {{ p_form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Update</button>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div class="col-md-3"></div>
+        </div>
     </div>
 {% endblock content %}
