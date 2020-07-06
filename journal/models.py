@@ -33,7 +33,7 @@ class Plant(models.Model):
 
     @property
     def watered_today(self):
-        return (timezone.now() - self.last_watered).days == 0
+        return (timezone.now() - self.last_watered).seconds/60/60 < 16 and (timezone.now() - self.last_watered).days < 1
 
     def __str__(self):
         return f"{self.name} {self.id}"

@@ -2,24 +2,21 @@
 {% load my_tags %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8"><a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
-        </div>
-        <div class="col-md-2"></div>
-    </div>
     
-    <div class="row">
+    
+
+    <div class="row mb-2">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div class="media mt-2">
                 <img class="rounded mr-3" src="{{ object.image.url }}" alt="{{ object.name }}" style="width:30%">
+                
                 <div class="media-body">
                     <h2 class="mt-0">{{ object.name }}</h2>
                     
-                    <p class="card-text">Location: {{ object.location }}
-                        <br>Last Watered: {{ plant.last_watered|timesince|upto:',' }} ago
-                        <br>Bought: {{ object.bought|date:"F d, Y" }}
+                    <p class="card-text"><b>Location:</b> {{ object.location }}
+                        <br><b>Last Watered:</b> {{ plant.last_watered|timesince|upto:',' }} ago
+                        <br><b>Bought:</b> {{ object.bought|date:"F j, Y" }}
                     </p>
                 </div>
             </div>
@@ -27,9 +24,43 @@
         <div class="col-md-2"></div>
     </div>
 
-    {% if object.owner == user %}
-        <a class="btn btn-outline-secondary" href="{% url 'plant-update' object.id %}">Update</a>
-        <a class="btn btn-outline-danger" href="{% url 'plant-delete' object.id %}">Delete</a>
-    {% endif %}
+    <div class="row mb-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-8"><a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card">
+                <h5 class="card-header">Journal</h5>
+                <div class="card-body">
+                  {% for entry in plant.entry_set.all reversed %}
+                    <p class="card-text"><b>{{ entry.date_created|date:"n/j/y" }}:</b> {{ entry.note }}</p>
+                  {% endfor %}
+                  <a href="#" class="btn btn-outline-primary"  role="button">Add Entry</a>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    
+
+    <div class="row mb-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="btn-group" role="group" style="width:100%" aria-label="Basic example">
+                {% if object.owner == user %}
+                <a href="#" role="button" class="btn btn-outline-secondary btn-sm">Update</a>
+                <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
 </div>
 {% endblock content %}

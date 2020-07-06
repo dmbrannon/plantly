@@ -17,7 +17,7 @@
       {% for plant in plants %}
         <div class="col-md-3">
           <a class="no-style" href="{% url 'plant-detail' plant.id %}">
-            <div class="card mb-5">
+            <div class="card plant-card mb-5" style="height:90%">
               <img class="card-img-top" src="{{ plant.image.url }}" alt="{{ plant.name }}">
               <div class="card-body">
                 <h5 class="card-title text-center">{{ plant.name }}</h5>

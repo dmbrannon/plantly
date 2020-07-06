@@ -1,17 +1,17 @@
-.card {
+.plant-card {
     transition: box-shadow .3s;
 }
-.card:hover {
-box-shadow: 0 0 11px rgba(33,33,33,.2);
+.plant-card:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
 }
 /* You can adjust the image size by increasing/decreasing the width, height */
 .custom-circle-image {
-width: 15vw; /* note i used vw not px for better responsive */
-height: 15vw;
+    width: 15vw; /* note i used vw not px for better responsive */
+    height: 15vw;
 }
 
 .custom-circle-image img {
-object-fit: cover;
+    object-fit: cover;
 }
 
 .no-style {
