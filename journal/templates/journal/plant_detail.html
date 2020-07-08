@@ -2,18 +2,13 @@
 {% load my_tags %}
 {% block content %}
 <div class="container">
-    
-    
-
     <div class="row mb-2">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div class="media mt-2">
                 <img class="rounded mr-3" src="{{ object.image.url }}" alt="{{ object.name }}" style="width:30%">
-                
                 <div class="media-body">
                     <h2 class="mt-0">{{ object.name }}</h2>
-                    
                     <p class="card-text"><b>Location:</b> {{ object.location }}
                         <br><b>Last Watered:</b> {{ plant.last_watered|timesince|upto:',' }} ago
                         <br><b>Bought:</b> {{ object.bought|date:"F j, Y" }}
@@ -23,7 +18,6 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-
     <div class="row mb-2">
         <div class="col-md-2"></div>
         <div class="col-md-8"><a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
@@ -40,7 +34,7 @@
                   {% for entry in plant.entry_set.all reversed %}
                     <p class="card-text"><b>{{ entry.date_created|date:"n/j/y" }}:</b> {{ entry.note }}</p>
                   {% endfor %}
-                  <a href="#" class="btn btn-outline-primary"  role="button">Add Entry</a>
+                  <a href="{% url 'entry-create' object.id %}" class="btn btn-outline-primary float-right" role="button">Add Entry</a>
                 </div>
               </div>
         </div>

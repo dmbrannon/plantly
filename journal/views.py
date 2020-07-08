@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Plant, Entry
 from django.contrib import messages
 # from django.http import HttpResponse
+from .forms import EntryCreateForm
 
 def home(request):
     context = {
@@ -57,5 +58,15 @@ class PlantDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return super(PlantDeleteView, self).delete(request, *args, **kwargs)
     
 
-def about(request):
-    return render(request, 'journal/about.html', {'title':'About'})
+class EntryCreateView(LoginRequiredMixin, CreateView):
+    form_class = EntryCreateForm
+    model = Entry
+    #fields = ['plant', 'note', 'watered', 'fertilized', 'repotted', 'treated']
+    
+    def get_initial(self):
+        plant = Plant.objects.get(pk=self.kwargs['pk'])
+        return {'plant': plant}
+
+    '''def form_valid(self, form): # override parent form validation to set plant owner to current user automatically
+        form.instance.owner = self.request.user
+        return super().form_valid(form)'''

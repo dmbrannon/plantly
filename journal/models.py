@@ -57,3 +57,7 @@ class Entry(models.Model):
 
     def __str__(self):
         return f"{self.note}"
+    
+    # Tell django where to go after creation of a new Entry
+    def get_absolute_url(self):
+        return reverse('plant-detail', kwargs={'pk': self.plant.pk})
