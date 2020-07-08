@@ -58,7 +58,7 @@ class PlantDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return super(PlantDeleteView, self).delete(request, *args, **kwargs)
     
 
-class EntryCreateView(LoginRequiredMixin, CreateView):
+class EntryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = EntryCreateForm
     model = Entry
     #fields = ['plant', 'note', 'watered', 'fertilized', 'repotted', 'treated']
@@ -66,7 +66,20 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
     def get_initial(self):
         plant = Plant.objects.get(pk=self.kwargs['pk'])
         return {'plant': plant}
+    
+    def test_func(self): # make sure that person trying to update a plant is the owner of that plant
+        entry = self.get_object()
+        if self.request.user == entry.plant.owner:
+            return True
+        return False
 
     '''def form_valid(self, form): # override parent form validation to set plant owner to current user automatically
         form.instance.owner = self.request.user
         return super().form_valid(form)'''
+
+
+from django.shortcuts import render
+
+def error_403(request, exception):
+        data = {}
+        return render(request,'journal/403.html', data)

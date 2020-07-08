@@ -20,7 +20,12 @@
     </div>
     <div class="row mb-2">
         <div class="col-md-2"></div>
-        <div class="col-md-8"><a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
+        <div class="col-md-8">
+        {% if object.owner == user %}
+            <a href="#" class="btn btn-primary" style="width:100%">Water Me!</a>
+        {% else %}
+            <a href="#" class="btn btn-primary" style="width:100%" role="button" data-toggle="modal" data-target="#modifyPlantModal">Water Me!</a>
+        {% endif %}
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -31,10 +36,17 @@
             <div class="card">
                 <h5 class="card-header">Journal</h5>
                 <div class="card-body">
-                  {% for entry in plant.entry_set.all reversed %}
-                    <p class="card-text"><b>{{ entry.date_created|date:"n/j/y" }}:</b> {{ entry.note }}</p>
-                  {% endfor %}
-                  <a href="{% url 'entry-create' object.id %}" class="btn btn-outline-primary float-right" role="button">Add Entry</a>
+                    {% for entry in object.entry_set.all reversed %}
+                        <p class="card-text"><b>{{ entry.date_created|date:"n/j/y" }}:</b> {{ entry.note }}</p>
+                    {% empty %}
+                        <p><i>No journal entries yet.</i></p>
+                    {% endfor %}
+
+                    {% if object.owner == user %}
+                        <a href="{% url 'entry-create' object.id %}" class="btn btn-outline-primary float-right" role="button">Add Entry</a>
+                    {% else %}
+                        <a class="btn btn-outline-primary float-right" href="#" role="button" data-toggle="modal" data-target="#modifyPlantModal">Add Entry</a>
+                    {% endif %}
                 </div>
               </div>
         </div>
@@ -53,6 +65,23 @@
         </div>
         <div class="col-md-2"></div>
     </div>
+
+    <!-- Modal Warning if user is not owner of plant-->
+    <div class="modal fade bd-example-modal-sm" id="modifyPlantModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-danger" id="exampleModalLabel">You Do Not Own This Plant</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              You are not allowed to modify it in any way.
+          </div>
+        </div>
+    </div>
+    <!-- End Modal if user is not owner of plant-->
 
 </div>
 {% endblock content %}
