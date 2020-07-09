@@ -41,6 +41,7 @@
     </div>
   </div>
 
+  {% if plants %}
   <div class="container" id="content-mobile">
     <div class="row" id="content-mobile">
       <div class="col-12">
@@ -70,7 +71,6 @@
                   <td class="text">{{ plant.last_watered|timesince|upto:',' }} ago</td>
                 {% endif %}
                 <td>{{ plant.location }}</td>
-              
               </tr>
             {% endfor %}
           </tbody>
@@ -78,4 +78,14 @@
       </div>
     </div>
   </div>
+  {% else %}
+  <div class="container">
+    <div class="alert alert-success mb-5" role="alert">
+      <h4 class="alert-heading">Welcome! &#127799;</h4>
+      <p>This is the front page of your new journal. Here, you will be able to see all of your plants (once you create some, that is!) You will be able to click on each plant to view its journal and details.</p>
+      <hr>
+      <p class="mb-0">You can <strong><a href="{% url 'plant-create' %}">click here</a></strong> to create a plant. Or you can log out and view Dana's plants for inspiration!</p>
+    </div>
+  </div>
+  {% endif %}
 {% endblock content %}

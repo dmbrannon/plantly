@@ -9,11 +9,19 @@ from django.utils import timezone
 from .forms import EntryCreateForm, EntryWaterForm
 from .models import Plant, Entry
 
+from django.contrib.auth.models import User
+
 class PlantListView(ListView):
     model = Plant
     template_name = 'journal/home.html'
     context_object_name = 'plants'
     ordering = ['location', 'name']
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(owner=self.request.user)
+        else:
+            dana = User.objects.filter(username='dana').first()
+            return super().get_queryset().filter(owner=dana)
 
 class PlantDetailView(FormMixin, DetailView):
     model = Plant
