@@ -55,3 +55,17 @@
 .asteriskField {
     display: none;
 }
+
+.selectdatewidget {
+    display: inline-block;
+}
+
+select[name$="_day"].selectdatewidget {
+    width: 27%;
+}
+select[name$="_month"].selectdatewidget {
+    width: 38%;
+}
+select[name$="_year"].selectdatewidget {
+    width: 35%;
+}

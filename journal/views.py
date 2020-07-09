@@ -6,7 +6,7 @@ from django.views.generic.edit import FormMixin
 from django.shortcuts import redirect
 from django.utils import timezone
 
-from .forms import EntryCreateForm, EntryWaterForm
+from .forms import EntryCreateForm, EntryWaterForm, PlantCreateForm
 from .models import Plant, Entry
 
 from django.contrib.auth.models import User
@@ -41,7 +41,8 @@ class PlantDetailView(FormMixin, DetailView):
 
 class PlantCreateView(LoginRequiredMixin, CreateView):
     model = Plant
-    fields = ['name', 'image', 'location', 'bought', 'schedule']
+    form_class = PlantCreateForm
+    #fields = ['name', 'image', 'location', 'bought', 'schedule']
     def form_valid(self, form): # override parent form validation to set plant owner to current user automatically
         form.instance.owner = self.request.user
         return super().form_valid(form)
