@@ -83,6 +83,11 @@ class EntryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return True
         return False
 
+    def get_context_data(self, **kwargs):
+        context = super(EntryCreateView, self).get_context_data(**kwargs)
+        context['plant'] = Plant.objects.get(pk=self.kwargs['pk'])
+        return context
+
     '''def form_valid(self, form): # override parent form validation to set plant owner to current user automatically
         form.instance.owner = self.request.user
         return super().form_valid(form)'''
