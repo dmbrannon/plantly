@@ -1,16 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Plant, Entry
 from django.contrib import messages
-# from django.http import HttpResponse
-from .forms import EntryCreateForm
+from django.views.generic.edit import FormMixin
+from django.shortcuts import redirect
+from django.utils import timezone
 
-def home(request):
-    context = {
-        'plants': Plant.objects.all()
-    }
-    return render(request, 'journal/home.html', context)
+from .forms import EntryCreateForm, EntryWaterForm
+from .models import Plant, Entry
 
 class PlantListView(ListView):
     model = Plant
@@ -18,8 +15,21 @@ class PlantListView(ListView):
     context_object_name = 'plants'
     ordering = ['location', 'name']
 
-class PlantDetailView(DetailView):
+class PlantDetailView(FormMixin, DetailView):
     model = Plant
+    form_class = EntryWaterForm
+
+    def get_success_url(self):
+        return reverse('plant-detail', kwargs={'pk': self.object.id})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        messages.success(request, f'Your {self.object.name} has been watered!')
+        note = "Watered after " + str((timezone.now() - self.object.last_watered).days) + " days"
+        Entry.objects.create(plant=self.object, note=note, date_created=timezone.now(), watered='Y', fertilized='N', repotted='N', treated='N')
+        return redirect('journal-home')
+
 
 class PlantCreateView(LoginRequiredMixin, CreateView):
     model = Plant
@@ -76,9 +86,6 @@ class EntryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     '''def form_valid(self, form): # override parent form validation to set plant owner to current user automatically
         form.instance.owner = self.request.user
         return super().form_valid(form)'''
-
-
-from django.shortcuts import render
 
 def error_403(request, exception):
         data = {}

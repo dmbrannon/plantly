@@ -56,7 +56,7 @@ class Entry(models.Model):
     treated = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='N')
 
     def __str__(self):
-        return f"{self.note}"
+        return f"{self.plant.name} {self.plant.id}: {self.note}"
     
     # Tell django where to go after creation of a new Entry
     def get_absolute_url(self):

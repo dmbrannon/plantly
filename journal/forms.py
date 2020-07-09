@@ -8,3 +8,11 @@ class EntryCreateForm(forms.ModelForm):
         widgets = {
             'plant': forms.HiddenInput,
         }
+
+class EntryWaterForm(forms.ModelForm):
+    class Meta:
+        model = Entry
+        fields = ['watered']
+        widgets = {
+            'watered': forms.HiddenInput,
+        }
