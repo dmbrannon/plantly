@@ -38,7 +38,6 @@ class PlantDetailView(FormMixin, DetailView):
         Entry.objects.create(plant=self.object, note=note, date_created=timezone.now(), watered='Y', fertilized='N', repotted='N', treated='N')
         return redirect('journal-home')
 
-
 class PlantCreateView(LoginRequiredMixin, CreateView):
     model = Plant
     form_class = PlantCreateForm

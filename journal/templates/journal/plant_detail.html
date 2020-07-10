@@ -1,12 +1,13 @@
 {% extends "journal/base.html" %}
 {% load my_tags %}
+{% load cropping %}
 {% block content %}
 <div class="container">
     <div class="row mb-2">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div class="media mt-2">
-                <img class="rounded mr-3" src="{{ object.image.url }}" alt="{{ object.name }}" style="width:30%">
+                <img class="rounded mr-3" src="{% cropped_thumbnail plant 'cropping' scale=1.0 %}" alt="{{ object.name }}" style="width:30%">
                 <div class="media-body">
                     <h2 class="mt-0">{{ object.name }}</h2>
                     <p class="card-text"><b>Location:</b> {{ object.location }}

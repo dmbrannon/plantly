@@ -1,4 +1,5 @@
 {% extends "journal/base.html" %}
+{% load cropping %}
 {% load my_tags %}
 {% block content %}
   {% if user.is_authenticated %}
@@ -18,7 +19,7 @@
         <div class="col-md-3">
           <a class="no-style" href="{% url 'plant-detail' plant.id %}">
             <div class="card plant-card mb-5" style="height:90%">
-              <img class="card-img-top" src="{{ plant.image.url }}" alt="{{ plant.name }}">
+              <img class="card-img-top" src="{% cropped_thumbnail plant 'cropping' scale=1.0 %}"  alt="{{ plant.name }}">
               <div class="card-body">
                 <h5 class="card-title text-center">{{ plant.name }}</h5>
                 <p class="card-text">Location: {{ plant.location }}
@@ -58,7 +59,7 @@
             {% for plant in plants %}
               <tr class="clickable" onclick="window.location='{% url 'plant-detail' plant.id %}'">
                 <td class="w-25">
-                  <img src="{{ plant.image.url }}" class="img-fluid rounded" alt="{{ plant.name }}">
+                  <img src="{% cropped_thumbnail plant 'cropping' scale=1.0 %}" class="img-fluid rounded" alt="{{ plant.name }}">
                 </td>
                 <td>{{ plant.name }}</td>
                 {% if plant.is_past_due %}

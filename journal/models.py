@@ -2,13 +2,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
-
 from datetime import datetime
-
-# Create your models here.
+from image_cropping.fields import ImageRatioField
 
 def user_directory_path(instance, filename): 
-  
     # file will be uploaded to MEDIA_ROOT / user_<id>/<filename> 
     return 'user_{0}/{1}'.format(instance.owner.id, filename)
 
@@ -17,7 +14,10 @@ class Plant(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     bought = models.DateTimeField(default=timezone.now)
-    image = models.ImageField(default='default.jpg', upload_to=user_directory_path)
+    image = models.ImageField(default='default.jpg', blank=True, upload_to=user_directory_path)
+    # size is "width x height"
+    cropping = ImageRatioField('image', '300x300')
+
     schedule = models.PositiveIntegerField()
     date_created = models.DateTimeField(auto_now_add=True) #date only when created, cant update this
     owner = models.ForeignKey(User, on_delete=models.CASCADE)

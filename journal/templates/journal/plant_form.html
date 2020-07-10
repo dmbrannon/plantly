@@ -1,5 +1,11 @@
 {% extends "journal/base.html" %}
 {% load crispy_forms_tags %}
+{% load cropping %}
+{% load thumbnail %}
+{% load easy_thumbnails_tags %}
+{% block head %}
+    {{ form.media }}
+{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
@@ -13,7 +19,16 @@
                         {% else %}
                             <legend class="border-bottom mb-4">Create a Plant</legend>
                         {% endif %}
-                        {{ form|crispy }}
+                        {{ form.name|as_crispy_field }}
+                        {{ form.location|as_crispy_field }}
+                        {{ form.bought|as_crispy_field }}
+                        {{ form.schedule|as_crispy_field }}
+                        {% if object %}
+                            <img src="{% cropped_thumbnail object "cropping" scale=0.5 %}">
+                        {% endif %}
+                        
+                        {{ form.image|as_crispy_field }}
+                        
                     </fieldset>
                     <div class="form-group">
                         {% if object %}
