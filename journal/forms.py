@@ -1,6 +1,7 @@
 from django import forms
 from .models import Entry, Plant
 from image_cropping import ImageCropWidget
+from django.forms.widgets import FileInput
 
 class EntryCreateForm(forms.ModelForm):
     class Meta:
@@ -30,5 +31,5 @@ class PlantCreateForm(forms.ModelForm):
         fields = ['name', 'location', 'bought', 'schedule', 'image', 'cropping']
         widgets = {
             'bought': forms.SelectDateWidget,
-            'image': ImageCropWidget,
+            'image': FileInput,
         }
