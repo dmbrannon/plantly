@@ -46,7 +46,14 @@ class PlantCreateView(LoginRequiredMixin, CreateView):
     #fields = ['name', 'image', 'location', 'bought', 'schedule']
     def form_valid(self, form): # override parent form validation to set plant owner to current user automatically
         form.instance.owner = self.request.user
+        plant = form.save()
+        if plant.image.height > plant.image.width:
+            form.instance.cropping = f'0,0,{plant.image.width},{plant.image.width}'
+        else:
+            form.instance.cropping = f'0,0,{plant.image.height},{plant.image.height}'
         return super().form_valid(form)
+
+
 
 class PlantUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Plant
@@ -61,6 +68,15 @@ class PlantUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == plant.owner:
             return True
         return False
+
+    def post(self, request, **kwargs):
+        plant = self.get_object()
+        request.POST = request.POST.copy()
+        if plant.image.height > plant.image.width:
+            request.POST['cropping'] = f'0,0,{plant.image.width},{plant.image.width}'
+        else:
+            request.POST['cropping'] = f'0,0,{plant.image.height},{plant.image.height}'
+        return super(PlantUpdateView, self).post(request, **kwargs)
 
 class PlantDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Plant
