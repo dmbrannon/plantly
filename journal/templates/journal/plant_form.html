@@ -26,9 +26,7 @@
                         {% if object %}
                             <img src="{% cropped_thumbnail object "cropping" scale=0.5 %}">
                         {% endif %}
-                        
-                        {{ form.image|as_crispy_field }}
-                        
+                        {{ form.image|as_crispy_field }}                        
                     </fieldset>
                     <div class="form-group">
                         {% if object %}

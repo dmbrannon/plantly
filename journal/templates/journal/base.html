@@ -28,6 +28,18 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <ul class="navbar-nav mr-auto">
       </ul>
+      <span class="navbar-text mr-2">
+        <a href="{% url 'journal-home' %}">Home</a>
+      </span>
+      <span class="navbar-text mr-2">
+        |
+      </span>
+      <span class="navbar-text mr-2">
+        <a href="{% url 'journal-about' %}">About</a>
+      </span>
+      <span class="navbar-text mr-2">
+        |
+      </span>
       {% if user.is_authenticated %}
         <span class="navbar-text mr-2">
           <a href="{% url 'profile' %}">Profile</a>

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.generic.edit import FormMixin
 from django.shortcuts import redirect
@@ -9,7 +10,8 @@ from django.utils import timezone
 from .forms import EntryCreateForm, EntryWaterForm, PlantCreateForm
 from .models import Plant, Entry
 
-from django.contrib.auth.models import User
+def about(request):
+    return render(request, 'journal/about.html', {'title': 'About'})
 
 class PlantListView(ListView):
     model = Plant

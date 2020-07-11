@@ -1,4 +1,29 @@
 {% extends "journal/base.html" %}
+{% load static %}
 {% block content %}
-    <h1>Journal About</h1> 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <h2>About Plantly</h2>
+                <hr>
+                <img class="rounded float-left mr-4" src="{% static 'journal/canada.jpg' %}" style="width:40%">
+                <p>Hello and welcome to Plantly! My name is Dana. I created this app for two reasons:</p>
+                <div class="container pl-2">
+                <ol class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>1.</strong> To make something useful</li>
+                    <li class="list-group-item"><strong>2.</strong> To teach myself Django</li>
+                </ol>
+                
+                </div>
+                <p class="mt-2">I love plants (see picture of me surrounded by plants.) I use this app every 
+                    day to keep my house plants healthy and thriving. I developed an iOS app with similar
+                    functionality back in school, but when I decided to learn Django I felt that remaking that 
+                    application would be a perfect way for me to pick up the framework. Feel free to check out my
+                    plants on the <a href="{% url 'journal-home' %}">Home page</a>, or make your own account to keep track of yours!
+                </p>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
 {% endblock content %}

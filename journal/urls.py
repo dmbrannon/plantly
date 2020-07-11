@@ -4,6 +4,7 @@ from .views import PlantListView, PlantDetailView, PlantCreateView, PlantUpdateV
 
 urlpatterns = [
     path('', PlantListView.as_view(), name='journal-home'),
+    path('about/', views.about, name='journal-about'),
     # we will do reverse lookups on this route so we don't want to name it 
     # something generic like home cuz then it will collide with other apps
     path('plant/<int:pk>/', PlantDetailView.as_view(), name='plant-detail'),
