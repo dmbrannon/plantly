@@ -7,6 +7,7 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 # Create your views here.
 
 def register(request):
+    """ Handle user registration. """
     if request.method == 'POST':
         form = UserRegisterForm(request.POST) # user has submitted form
         if form.is_valid():
@@ -20,6 +21,7 @@ def register(request):
 
 @login_required
 def profile(request):
+    """ Show logged-in user's profile and allow updates on form submission. """
     if request.method == 'POST': # user has submitted form to update profile
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)

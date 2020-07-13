@@ -11,9 +11,11 @@ from .forms import EntryCreateForm, EntryWaterForm, PlantCreateForm
 from .models import Plant, Entry
 
 def about(request):
+    """ Show about page explaining app purpose. """
     return render(request, 'journal/about.html', {'title': 'About'})
 
 class PlantListView(ListView):
+    """ List all of user's plants on home page if they are logged in. """
     model = Plant
     template_name = 'journal/home.html'
     context_object_name = 'plants'
@@ -26,6 +28,7 @@ class PlantListView(ListView):
             return super().get_queryset().filter(owner=dana)
 
 class PlantDetailView(FormMixin, DetailView):
+    """ Show details of plant and handle 'Water Me!' button submission. """
     model = Plant
     form_class = EntryWaterForm
 
@@ -41,6 +44,7 @@ class PlantDetailView(FormMixin, DetailView):
         return redirect('journal-home')
 
 class PlantCreateView(LoginRequiredMixin, CreateView):
+    """ Create a plant and set the owner and cropping fields automatically. """
     model = Plant
     form_class = PlantCreateForm
     #fields = ['name', 'image', 'location', 'bought', 'schedule']
@@ -56,6 +60,7 @@ class PlantCreateView(LoginRequiredMixin, CreateView):
 
 
 class PlantUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """ Update plant if user is the plant owner and auto set the cropping field again. """
     model = Plant
     form_class = PlantCreateForm
     #fields = ['name', 'image', 'location', 'bought', 'schedule']
@@ -79,6 +84,7 @@ class PlantUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super(PlantUpdateView, self).post(request, **kwargs)
 
 class PlantDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """ Delete a plant if user is plant owner and redirect to home page with message. """
     model = Plant
 
     def test_func(self): # make sure that person trying to update a plant is the owner of that plant
@@ -96,6 +102,7 @@ class PlantDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
 
 class EntryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """ Create a journal entry with auto-populated plant field. """
     form_class = EntryCreateForm
     model = Entry
     #fields = ['plant', 'note', 'watered', 'fertilized', 'repotted', 'treated']
@@ -115,10 +122,7 @@ class EntryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context['plant'] = Plant.objects.get(pk=self.kwargs['pk'])
         return context
 
-    '''def form_valid(self, form): # override parent form validation to set plant owner to current user automatically
-        form.instance.owner = self.request.user
-        return super().form_valid(form)'''
-
 def error_403(request, exception):
-        data = {}
-        return render(request,'journal/403.html', data)
+    """ Show custom 403 error page. """
+    data = {}
+    return render(request,'journal/403.html', data)
