@@ -18,6 +18,10 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['username', 'email']
 
 class ProfileUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['image'].help_text = "The maxmiumum file size is 1 MB"
+
     class Meta:
         model = Profile
         fields = ['image']
