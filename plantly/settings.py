@@ -148,3 +148,14 @@ IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBack
 IMAGE_CROPPING_BACKEND_PARAMS = {}
 
 
+# Prod vs Dev Settings
+if 'DJANGO_DEBUG_FALSE' in os.environ:
+    DEBUG = False
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+    ALLOWED_HOSTS = [os.environ['SITENAME1'], os.environ['SITENAME2']]
+else:
+    DEBUG = True
+    SECRET_KEY = '8h9b@mim9*01uei*0ser(az7e_v1orl+=297l$#jtq=oaa1!u&' # non-prod key
+    ALLOWED_HOSTS = []
+
+
