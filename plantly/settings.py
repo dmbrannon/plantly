@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -77,13 +77,24 @@ WSGI_APPLICATION = 'plantly.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+if not DEBUG:
+	DATABASES = {
+	    'default': {
+	        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	        'NAME': os.environ['DB_NAME'],
+		'USER': os.environ['DB_USER'],
+		'PASSWORD': os.environ['DB_PASS'],
+		'HOST': 'localhost',
+		'PORT': '',
+	    }
+	}
+else:
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.sqlite3',
+			'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		}
+	}
 
 
 # Password validation
@@ -123,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 CRISPY_TEMPLATE_PACK ='bootstrap4'
 
@@ -146,16 +158,3 @@ THUMBNAIL_PROCESSORS = (
 ) + thumbnail_settings.THUMBNAIL_PROCESSORS
 IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
 IMAGE_CROPPING_BACKEND_PARAMS = {}
-
-
-# Prod vs Dev Settings
-if 'DJANGO_DEBUG_FALSE' in os.environ:
-    DEBUG = False
-    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-    ALLOWED_HOSTS = [os.environ['SITENAME1'], os.environ['SITENAME2']]
-else:
-    DEBUG = True
-    SECRET_KEY = '8h9b@mim9*01uei*0ser(az7e_v1orl+=297l$#jtq=oaa1!u&' # non-prod key
-    ALLOWED_HOSTS = []
-
-
