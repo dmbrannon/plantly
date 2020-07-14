@@ -142,3 +142,6 @@ cython_debug/
 
 # env variables
 .env
+
+# Production static files
+static/
