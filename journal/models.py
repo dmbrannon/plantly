@@ -29,8 +29,10 @@ class Plant(models.Model):
     # Make user file uploads smaller, fix crop
     def save(self, *args, **kwargs):
         self.cropping = '0,0,300,300'
+
         super().save(*args, **kwargs) # call parent class to save image first
         img = Image.open(self.image.path) # open this Profile instance's image
+
         if img.height > 300 or img.width > 300:
             if img.height > img.width:
                 output_size = (300, int(img.height/(img.width/300)))
@@ -40,6 +42,29 @@ class Plant(models.Model):
                 output_size = (int(img.width/(img.height/300)), 300)
                 img.thumbnail(output_size)
                 img.save(self.image.path) # overwrite the large image
+
+        try:
+            image = Image.open(self.image.path)
+
+            for orientation in ExifTags.TAGS.keys():
+                #print(ExifTags.TAGS.keys()):
+                if ExifTags.TAGS[orientation]=='Orientation':
+                    break
+
+            exif = dict(image._getexif().items())
+
+            if exif[orientation] == 3:
+                image=image.rotate(180, expand=True)
+            elif exif[orientation] == 6:
+                image=image.rotate(270, expand=True)
+            elif exif[orientation] == 8:
+                image=image.rotate(90, expand=True)
+
+            image.save(self.image.path)
+            image.close()
+        except (AttributeError, KeyError, IndexError):
+            # cases: image don't have getexif
+            pass
         
     
     @property
