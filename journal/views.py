@@ -22,7 +22,7 @@ class PlantListView(ListView):
     ordering = ['location', 'name']
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return self.model.objects.filter(owner=self.request.user)
+            return self.model.objects.filter(owner=self.request.user).order_by('location', 'name')
         else:
             dana = User.objects.filter(username='dana').first()
             return super().get_queryset().filter(owner=dana)

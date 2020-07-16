@@ -33,16 +33,6 @@ class Plant(models.Model):
         super().save(*args, **kwargs) # call parent class to save image first
         img = Image.open(self.image.path) # open this Profile instance's image
 
-        if img.height > 300 or img.width > 300:
-            if img.height > img.width:
-                output_size = (300, int(img.height/(img.width/300)))
-                img.thumbnail(output_size)
-                img.save(self.image.path) # overwrite the large image
-            else:
-                output_size = (int(img.width/(img.height/300)), 300)
-                img.thumbnail(output_size)
-                img.save(self.image.path) # overwrite the large image
-
         try:
             image = Image.open(self.image.path)
 
@@ -65,6 +55,18 @@ class Plant(models.Model):
         except (AttributeError, KeyError, IndexError):
             # cases: image don't have getexif
             pass
+
+        if img.height > 300 or img.width > 300:
+            if img.height > img.width:
+                output_size = (300, int(img.height/(img.width/300)))
+                img.thumbnail(output_size)
+                img.save(self.image.path) # overwrite the large image
+            else:
+                output_size = (int(img.width/(img.height/300)), 300)
+                img.thumbnail(output_size)
+                img.save(self.image.path) # overwrite the large image
+
+        
         
     
     @property
