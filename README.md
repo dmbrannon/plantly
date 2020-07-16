@@ -22,4 +22,6 @@ I first created an iOS app during my Mobile Computing class that helped remind m
 
 7. **Make sure my environment is production-ready:** This was probably the trickiest step (aside from making the actual application), because I have never deployed anything before. What made it even trickier is that everyone and their dog has a different methodology for deploying Django apps. I went ahead and just used environment variables to store different settings for my development and production environments. I'm not totally sure if that's the best way to do it, so if anyone has suggestions, feel free to [email me](mailto:dana.brannon@utexas.edu).
 
-This has been a great learning experience so far, and I honestly can't wait to keep learning more. 😃
+8. **Implement Testing:** Testing is something I have been putting on the backburner of my learning schedule... So I'm glad I finally buckled down and wrote some tests for this app. Although I think it's an important skill to have, it seems like there's a lot of mixed reviews on testing: [here's a good TechCrunch article](https://techcrunch.com/2016/03/20/paging-eugene-o-neill/) that shows both sides of unit testing (t.l.d.r. badly-written unit tests are almost as bad as no unit tests.)
+
+And that's a wrap! This has been a great learning experience so far, and I honestly can't wait to keep learning more. 😃
