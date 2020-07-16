@@ -145,3 +145,4 @@ cython_debug/
 
 # Production static files
 static/
+journal/static/journal/

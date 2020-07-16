@@ -1,9 +1,12 @@
+import os
+
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 from datetime import datetime
 from image_cropping.fields import ImageRatioField
+from PIL import Image, ExifTags
 
 def user_directory_path(instance, filename): 
     # file will be uploaded to MEDIA_ROOT / user_<id>/<filename> 
@@ -19,9 +22,25 @@ class Plant(models.Model):
     cropping = ImageRatioField('image', '300x300')
 
     schedule = models.PositiveIntegerField()
-    date_created = models.DateTimeField(auto_now_add=True) #date only when created, cant update this
+    date_created = models.DateTimeField(auto_now_add=True) # date only when created, cant update this
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     last_watered = models.DateTimeField(default=timezone.now)
+
+    # Make user file uploads smaller, fix crop
+    def save(self, *args, **kwargs):
+        self.cropping = '0,0,300,300'
+        super().save(*args, **kwargs) # call parent class to save image first
+        img = Image.open(self.image.path) # open this Profile instance's image
+        if img.height > 300 or img.width > 300:
+            if img.height > img.width:
+                output_size = (300, int(img.height/(img.width/300)))
+                img.thumbnail(output_size)
+                img.save(self.image.path) # overwrite the large image
+            else:
+                output_size = (int(img.width/(img.height/300)), 300)
+                img.thumbnail(output_size)
+                img.save(self.image.path) # overwrite the large image
+        
     
     @property
     def is_due(self):
@@ -61,3 +80,5 @@ class Entry(models.Model):
     # Tell django where to go after creation of a new Entry
     def get_absolute_url(self):
         return reverse('plant-detail', kwargs={'pk': self.plant.pk})
+
+

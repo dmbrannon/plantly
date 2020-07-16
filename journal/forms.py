@@ -24,7 +24,7 @@ class PlantCreateForm(forms.ModelForm):
         super(PlantCreateForm, self).__init__(*args, **kwargs)
         self.fields['schedule'].help_text = "Enter the number of days between waterings <i>(e.g.  7)</i>"
         self.fields['location'].help_text = "<i>(e.g.  Kitchen)</i>"
-        self.fields['image'].help_text = "Max file size: 1 MB<br> WARNING: This image will be cropped to a square"
+        self.fields['image'].help_text = "Max file size: 3 MB<br> WARNING: This image will be cropped to a square"
 
     class Meta:
         model = Plant
