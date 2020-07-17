@@ -66,9 +66,6 @@ class Plant(models.Model):
                 img.thumbnail(output_size)
                 img.save(self.image.path) # overwrite the large image
 
-        
-        
-    
     @property
     def is_due(self):
         return (timezone.now() - self.last_watered).days == self.schedule
@@ -95,7 +92,7 @@ class Entry(models.Model):
 
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
     note = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(default=timezone.now)
     watered = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='N')
     fertilized = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='N')
     repotted = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='N')
