@@ -138,3 +138,13 @@ def error_403(request, exception):
     """ Show custom 403 error page. """
     data = {}
     return render(request,'journal/403.html', data)
+
+def error_404(request, exception):
+    """ Show custom 404 error page. """
+    data = {}
+    return render(request,'journal/404.html', data)
+
+def error_500(request, exception):
+    """ Show custom 500 error page. """
+    data = {}
+    return render(request,'journal/500.html', data)
