@@ -3,8 +3,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, FormView
+from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
 
 from .forms import EntryCreateForm, EntryWaterForm, PlantCreateForm
@@ -35,12 +37,15 @@ class PlantDetailView(FormMixin, DetailView):
     def get_success_url(self):
         return reverse('plant-detail', kwargs={'pk': self.object.id})
 
+    # If Water Me! button is pressed, update plant last_watered and return to home page with success
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
         messages.success(request, f'Your {self.object.name} has been watered!')
-        note = "Watered after " + str((timezone.now() - self.object.last_watered).days) + " days"
-        Entry.objects.create(plant=self.object, note=note, date_created=timezone.now(), watered='Y', fertilized='N', repotted='N', treated='N')
+        self.object.last_watered = timezone.now()
+        self.object.save()
+        # note = "Watered after " + str((timezone.now() - self.object.last_watered).days) + " days"
+        # Entry.objects.create(plant=self.object, note=note, date_created=timezone.now(), watered='Y', fertilized='N', repotted='N', treated='N')
         return redirect('journal-home')
 
 class PlantCreateView(LoginRequiredMixin, CreateView):
@@ -105,22 +110,29 @@ class EntryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """ Create a journal entry with auto-populated plant field. """
     form_class = EntryCreateForm
     model = Entry
-    #fields = ['plant', 'note', 'watered', 'fertilized', 'repotted', 'treated']
-    
+
+    # Redirect to plant detail view after journal entry created
+    def get_success_url(self):
+        return reverse('plant-detail', kwargs={'pk': self.kwargs.get('pk')})
+
+    # Pass the plant into the view so it can be accessed
+    def form_valid(self, form):
+        form.instance.plant = Plant.objects.get(id=self.kwargs.get('pk'))    
+        return super(EntryCreateView, self).form_valid(form)
+
     def get_initial(self):
         plant = Plant.objects.get(pk=self.kwargs['pk'])
         return {'plant': plant}
-    
-    def test_func(self): # make sure that person trying to update a plant is the owner of that plant
-        entry = self.get_object()
-        if self.request.user == entry.plant.owner:
-            return True
-        return False
 
     def get_context_data(self, **kwargs):
         context = super(EntryCreateView, self).get_context_data(**kwargs)
         context['plant'] = Plant.objects.get(pk=self.kwargs['pk'])
         return context
+
+    def test_func(self): # make sure that person trying to update a plant is the owner of that plant
+        if self.request.user == Plant.objects.get(pk=self.kwargs['pk']).owner:
+            return True
+        return False
 
 def error_403(request, exception):
     """ Show custom 403 error page. """
