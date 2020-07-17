@@ -26,6 +26,10 @@ class Plant(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     last_watered = models.DateTimeField(default=timezone.now)
 
+    last_fertilized = models.DateTimeField(null=True, blank=True)
+    last_repotted = models.DateTimeField(null=True, blank=True)
+    last_treated = models.DateTimeField(null=True, blank=True)
+
     # Make user file uploads smaller, fix crop
     def save(self, *args, **kwargs):
         self.cropping = '0,0,300,300'

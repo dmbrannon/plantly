@@ -8,4 +8,13 @@ def save_profile(sender, instance, **kwargs):
     if instance.watered == "Y":
         instance.plant.last_watered = str(timezone.now())
         instance.plant.save(update_fields=['last_watered'])
+    if instance.repotted == "Y":
+        instance.plant.last_repotted = str(timezone.now())
+        instance.plant.save(update_fields=['last_repotted'])
+    if instance.fertilized == "Y":
+        instance.plant.last_fertilized = str(timezone.now())
+        instance.plant.save(update_fields=['last_fertilized'])
+    if instance.treated == "Y":
+        instance.plant.last_treated = str(timezone.now())
+        instance.plant.save(update_fields=['last_treated'])
 
