@@ -117,7 +117,8 @@ class EntryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     # Pass the plant into the view so it can be accessed
     def form_valid(self, form):
-        form.instance.plant = Plant.objects.get(id=self.kwargs.get('pk'))    
+        form.instance.plant = Plant.objects.get(id=self.kwargs.get('pk'))
+            
         return super(EntryCreateView, self).form_valid(form)
 
     def get_initial(self):
