@@ -1,7 +1,9 @@
 from django import forms
-from .models import Entry, Plant
-from image_cropping import ImageCropWidget
 from django.forms.widgets import FileInput
+from django.template.defaultfilters import filesizeformat
+from django.conf import settings
+from image_cropping import ImageCropWidget
+from .models import Entry, Plant
 
 class EntryCreateForm(forms.ModelForm):
     class Meta:
@@ -25,6 +27,16 @@ class PlantCreateForm(forms.ModelForm):
         self.fields['schedule'].help_text = "Enter the number of days between waterings <i>(e.g.  7)</i>"
         self.fields['location'].help_text = "<i>(e.g.  Kitchen)</i>"
         self.fields['image'].help_text = "Max file size: 5 MB<br> WARNING: This image will be cropped to a square"
+
+    def clean_image(self):
+        image = self.cleaned_data['image']
+        content_type = image.content_type.split('/')[0]
+        if content_type in settings.CONTENT_TYPES:
+            if image.size > int(settings.MAX_UPLOAD_SIZE):
+                raise forms.ValidationError(('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_SIZE), filesizeformat(image.size)))
+        else:
+            raise forms.ValidationError('File type is not supported')
+        return image
 
     class Meta:
         model = Plant
