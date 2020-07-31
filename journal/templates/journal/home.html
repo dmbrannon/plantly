@@ -24,13 +24,13 @@
                 <h5 class="card-title text-center">{{ plant.name }}</h5>
                 <p class="card-text">Location: {{ plant.location }}
                   {% if plant.is_past_due %}
-                    <br>Last Watered: <span class="text-danger">{{ plant.last_watered|timesince|upto:',' }} ago</span>
+                    <br>Last Watered: <span class="text-danger">{{ plant.last_watered|days_since }}</span>
                   {% elif plant.is_due %}
-                    <br>Last Watered: <span class="text-warning">{{ plant.last_watered|timesince|upto:',' }} ago</span>
+                    <br>Last Watered: <span class="text-warning">{{ plant.last_watered|days_since }}</span>
                   {% elif plant.watered_today %}
                     <br>Last Watered: <span class="text-success">Today</span>
                   {% else %}
-                    <br>Last Watered: {{ plant.last_watered|timesince|upto:',' }} ago
+                    <br>Last Watered: {{ plant.last_watered|days_since }}
                   {% endif %}
                   <br>Bought: {{ plant.bought|date:"F j, Y" }}
                 </p>
@@ -63,13 +63,13 @@
                 </td>
                 <td>{{ plant.name }}</td>
                 {% if plant.is_past_due %}
-                  <td class="text-danger">{{ plant.last_watered|timesince|upto:',' }} ago</td>
+                  <td class="text-danger">{{ plant.last_watered|days_since }} ago</td>
                 {% elif plant.is_due %}
-                  <td class="text-warning">{{ plant.last_watered|timesince|upto:',' }} ago</td>
+                  <td class="text-warning">{{ plant.last_watered|days_since }} ago</td>
                 {% elif plant.watered_today %}
                   <td class="text-success">Today</td>
                 {% else %}
-                  <td class="text">{{ plant.last_watered|timesince|upto:',' }} ago</td>
+                  <td class="text">{{ plant.last_watered|days_since }} ago</td>
                 {% endif %}
                 <td>{{ plant.location }}</td>
               </tr>

@@ -10,9 +10,23 @@
                 <img class="rounded mr-3" src="{% cropped_thumbnail plant 'cropping' scale=1.0 %}" alt="{{ object.name }}" style="width:30%">
                 <div class="media-body">
                     <h2 class="mt-0">{{ object.name }}</h2>
-                    <p class="card-text"><b>Location:</b> {{ object.location }}
-                        <br><b>Last Watered:</b> {{ plant.last_watered|timesince|upto:',' }} ago
-                        <br><b>Bought:</b> {{ object.bought|date:"F j, Y" }}
+                    <p class="card-text"><b>Last Watered:</b> {{ object.last_watered|days_since }}
+                        <br><a class="btn btn-dark btn-sm" id="content-mobile" href="#" role="button" data-toggle="modal" data-target="#moreInfoModal">More Info</a>
+                        <span id="content-desktop">
+                            <b>Location:</b> {{ object.location }}
+                            <br><b>Schedule:</b> Water every {{ object.schedule }} days
+                            <br><b>Bought:</b> {{ object.bought|date:"N j, Y" }}
+                            <br>
+                            {% if object.last_fertilized %}
+                                <b>Fertilized:</b> {{ object.last_fertilized|date:"n/j/y" }}
+                            {% endif %}
+                            {% if object.last_repotted %}
+                                | <b>Repotted:</b> {{ object.last_repotted|date:"n/j/y" }}
+                            {% endif %}
+                            {% if object.last_treated %}
+                                | <b>Treated:</b> {{ object.last_treated|date:"n/j/y" }}
+                            {% endif %}
+                        </span>
                     </p>
                 </div>
             </div>
@@ -69,6 +83,34 @@
         </div>
         <div class="col-md-2"></div>
     </div>
+
+    <!-- Modal for more plant info-->
+    <div class="modal fade bd-example-modal-sm" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">{{ object.name }} Info</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <b>Location:</b> {{ object.location }}
+                <br><b>Schedule:</b> Water every {{ object.schedule }} days
+                <br><b>Bought:</b> {{ object.bought|date:"N j, Y" }}
+                {% if object.last_fertilized %}
+                    <br><b>Last Fertilized:</b> {{ object.last_fertilized|date:"n/j/y" }}
+                {% endif %}
+                {% if object.last_repotted %}
+                    <br><b>Last Repotted:</b> {{ object.last_repotted|date:"n/j/y" }}
+                {% endif %}
+                {% if object.last_treated %}
+                    <br><b>Last Treated:</b> {{ object.last_treated|date:"n/j/y" }}
+                {% endif %}
+          </div>
+        </div>
+    </div>
+    <!-- End Modal for more plant info-->
 
     <!-- Modal Warning if user is not owner of plant-->
     <div class="modal fade bd-example-modal-sm" id="modifyPlantModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
