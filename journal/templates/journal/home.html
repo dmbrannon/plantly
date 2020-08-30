@@ -63,13 +63,13 @@
                 </td>
                 <td>{{ plant.name }}</td>
                 {% if plant.is_past_due %}
-                  <td class="text-danger">{{ plant.last_watered|days_since }} ago</td>
+                  <td class="text-danger">{{ plant.last_watered|days_since }}</td>
                 {% elif plant.is_due %}
-                  <td class="text-warning">{{ plant.last_watered|days_since }} ago</td>
+                  <td class="text-warning">{{ plant.last_watered|days_since }}</td>
                 {% elif plant.watered_today %}
                   <td class="text-success">Today</td>
                 {% else %}
-                  <td class="text">{{ plant.last_watered|days_since }} ago</td>
+                  <td class="text">{{ plant.last_watered|days_since }}</td>
                 {% endif %}
                 <td>{{ plant.location }}</td>
               </tr>
